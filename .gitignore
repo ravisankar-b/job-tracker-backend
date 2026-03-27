@@ -1,36 +1,30 @@
-HELP.md
+# --- Local Development Secrets ---
+.env
+
+# --- Build and Target Folders ---
 target/
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+build/
+*.class
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
+# --- IDE Settings (VS Code, IntelliJ, STS) ---
+.vscode/
+.idea/
 *.iws
 *.iml
 *.ipr
+.classpath
+.project
+.settings
+.factorypath
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# --- Package and Log Files ---
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.log
+hs_err_pid*
 
-### VS Code ###
-.vscode/
-
-# Security: Sensitive environment variables
-.env
+# --- Project Specific ---
+HELP.md
