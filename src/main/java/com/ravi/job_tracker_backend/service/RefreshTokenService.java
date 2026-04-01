@@ -1,6 +1,5 @@
 package com.ravi.job_tracker_backend.service;
 
-import com.ravi.job_tracker_backend.dto.requestdto.RefreshTokenRequestDto;
 import com.ravi.job_tracker_backend.dto.responsedto.AuthResponseDto;
 import com.ravi.job_tracker_backend.entity.RefreshToken;
 import com.ravi.job_tracker_backend.entity.User;
@@ -45,10 +44,10 @@ public class RefreshTokenService {
     }
 
     // To verify refresh token and pass new access token
-    public AuthResponseDto verifyRefreshToken(RefreshTokenRequestDto refreshTokenRequestDto)
+    public AuthResponseDto verifyRefreshToken(String refreshTokenRequest)
     {
         // verify token present or not
-        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenRequestDto.getRefreshToken())
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenRequest)
                 .orElseThrow(()-> new JobTrackerCustomException("Error fetching data, Please Login Again",
                         HttpStatus.BAD_REQUEST));
         // verify token expired or not
@@ -62,7 +61,6 @@ public class RefreshTokenService {
         String token = jwtUtil.generateToken(refreshToken.getUser().getEmail());
         AuthResponseDto authResponseDto = new AuthResponseDto();
         authResponseDto.setAccessToken(token);
-        authResponseDto.setRefreshToken(refreshToken.getToken());
         authResponseDto.setUsername(refreshToken.getUser().getUsername());
         authResponseDto.setEmail(refreshToken.getUser().getEmail());
         return authResponseDto;
