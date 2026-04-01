@@ -34,21 +34,7 @@ public class JwtUtil {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    // validate token(every request useful method)
-    public boolean validateToken(String token, String email) {
-        String extractedEmail = extractEmail(token);
-        return extractedEmail.equals(email) && !isTokenExpired(token);
-    }
 
-    // check whether token expired or not
-    private boolean isTokenExpired(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration()
-                .before(new Date());
-    }
 
     // generate secret key suitable for cryptographics algo signature
     private SecretKey getSigningKey() {

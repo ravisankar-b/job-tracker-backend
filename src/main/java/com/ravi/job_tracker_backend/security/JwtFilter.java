@@ -31,16 +31,28 @@ public class JwtFilter extends OncePerRequestFilter {
         String email = null;
         if(authHeader!= null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
-            email= jwtUtil.extractEmail(token);
+            try {
+                email = jwtUtil.extractEmail(token); // verify and extract email if token is valid
+            } catch (io.jsonwebtoken.ExpiredJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"message\": \"JWT token expired\"}");
+                return;
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"message\": \"Invalid JWT token\"}");
+                return;
+            }
         }
 
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            if(jwtUtil.validateToken(token, email)) {
-                UsernamePasswordAuthenticationToken authToken =
+
+            UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(email, null, new ArrayList<>());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+
         }
         filterChain.doFilter(request, response);
 
