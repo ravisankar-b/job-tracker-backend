@@ -23,10 +23,9 @@ public class UserController {
     RefreshTokenService refreshTokenService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto,
-                                                  HttpServletResponse response)
+    public ResponseEntity<String> signup(@RequestBody SignupRequestDto signupRequestDto)
     {
-        return ResponseEntity.status(201).body(userService.signup(signupRequestDto, response));
+        return ResponseEntity.status(201).body(userService.signup(signupRequestDto));
     }
 
     @PostMapping("/signin")

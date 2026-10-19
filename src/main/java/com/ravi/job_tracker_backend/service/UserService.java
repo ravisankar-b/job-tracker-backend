@@ -33,7 +33,7 @@ public class UserService {
     @Value("${jwt.refresh.expiration}")
     private long refreshExpiration;
 
-    public AuthResponseDto signup(SignupRequestDto signupRequestDto, HttpServletResponse response) {
+    public String signup(SignupRequestDto signupRequestDto) {
         // check if email already exists or not
         if(userRepository.existsByEmail(signupRequestDto.getEmail())) {
             throw new JobTrackerCustomException("Email Already Exist!", HttpStatus.CONFLICT);
@@ -43,16 +43,9 @@ public class UserService {
         user.setUsername(signupRequestDto.getUsername());
         user.setEmail(signupRequestDto.getEmail());
         user.setPassword(passwordEncoder.encode(signupRequestDto.getPassword()));
-        User savedUser = userRepository.save(user);
-        // Create refresh token and set as cookie
-        String refreshToken = refreshTokenService.createRefreshToken(savedUser).getToken();
-        setRefreshTokenCookie(response, refreshToken);
-        // convert user into response dto and return it
-        AuthResponseDto authResponseDto = new AuthResponseDto();
-        authResponseDto.setAccessToken(jwtUtil.generateToken(savedUser.getEmail()));
-        authResponseDto.setUsername(savedUser.getUsername());
-        authResponseDto.setEmail(savedUser.getEmail());
-        return authResponseDto;
+        userRepository.save(user);
+
+        return "Registration Sucessfull";
     }
 
     public AuthResponseDto signin(SigninRequestDto signinRequestDto, HttpServletResponse response) {

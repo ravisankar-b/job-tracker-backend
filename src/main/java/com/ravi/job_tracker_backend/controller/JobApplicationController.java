@@ -26,7 +26,7 @@ public class JobApplicationController {
                 email));
     }
     // get job applications
-    @GetMapping("getJob")
+    @GetMapping("/getJob")
     public ResponseEntity<List<JobApplicationResponseDto>> fetchJob()
     {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

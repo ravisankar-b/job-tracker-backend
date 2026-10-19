@@ -16,7 +16,7 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    // method to generate token from email(useful during signup/signin time)
+    // method to generate token from email(useful during signin time)
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
