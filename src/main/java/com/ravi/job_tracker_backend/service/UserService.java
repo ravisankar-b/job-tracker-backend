@@ -82,7 +82,7 @@ public class UserService {
         ResponseCookie cookie = ResponseCookie.from("refreshToken", token)
                 .httpOnly(true)
                 .secure(true)
-                .path("/api/auth")
+                .path("/auth/refresh")
                 .maxAge(Duration.ofMillis(refreshExpiration))
                 .sameSite("Strict")
                 .build();
@@ -93,7 +93,7 @@ public class UserService {
         ResponseCookie cookie = ResponseCookie.from("refreshToken", "")
                 .httpOnly(true)
                 .secure(true)
-                .path("/api/auth")
+                .path("/auth/refresh")
                 .maxAge(0)
                 .sameSite("Strict")
                 .build();
