@@ -312,7 +312,7 @@ Dedicated unit and integration tests are planned.
 
 ## Planned Improvements
 
-- [ ] Add health monitoring through Spring Boot Actuator.
+- [x] Add health monitoring through Spring Boot Actuator.
 - [ ] Add unit and integration tests using JUnit, Mockito, and Spring Boot testing tools.
 - [ ] Integrate the backend with a React frontend.
 - [ ] Containerize the application using Docker.
